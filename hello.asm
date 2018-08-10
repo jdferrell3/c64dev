@@ -35,10 +35,11 @@ main:
     ; clear screen
     jsr $e544
 
+    ; set backgroun and border to black
     lda #$00
-    sta BACKGROUND ; store A (03) in background color address
+    sta BACKGROUND ; store A (00) in background color address
     lda #$00
-    sta BORDER     ; store A (05) in border color address
+    sta BORDER     ; store A (00) in border color address
 
     ldx #$00
 
