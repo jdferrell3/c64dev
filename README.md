@@ -2,6 +2,6 @@
 
 Experimenting with 6502 assembly on the Commodore.
 
-https://github.com/cliffordcarnmo/c64-devkit
-https://gist.github.com/wkjagt/9043907
-http://sta.c64.org/cbm64mem.html
+- [https://github.com/cliffordcarnmo/c64-devkit] (https://github.com/cliffordcarnmo/c64-devkit)
+- [https://gist.github.com/wkjagt/9043907] (https://gist.github.com/wkjagt/9043907)
+- [http://sta.c64.org/cbm64mem.html] (http://sta.c64.org/cbm64mem.html)
