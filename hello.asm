@@ -58,7 +58,7 @@ hello:
 	jsr wait
 	jsr end
 
-; infiite loop so text remains on screen
+; infinite loop so text remains on screen
 wait:
 	jsr wait
 
