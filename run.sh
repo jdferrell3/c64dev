@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# exit is any command fails
+set -e
+
 # shell script to do some of the steps the Makefile included with https://github.com/cliffordcarnmo/c64-devkit does.
 
 # bin/acme -r build/buildreport --vicelabels build/symbols --msvc --color --format cbm -v3 --outfile build/c64-devkit.prg project/main.asm
@@ -17,13 +20,16 @@ ACME=~/c64-linux-devkit/bin/acme
 PUCRUNCH=~/c64-linux-devkit/bin/pucrunch
 VICE=/usr/bin/x64
 
-TEMPFILE=/tmp/out.prg
+TEMPFILE=/tmp/temp.prg
 SYMBOLS=/tmp/symbols
 REPORT=/tmp/report
 
 ACME_ARGS="-r ${REPORT} --vicelabels ${SYMBOLS} --msvc --color --format cbm -v3 -o ${TEMPFILE} $1"
 PUCRUNCH_ARGS="-x0x0801 -c64 -g55 -fshort ${TEMPFILE} ${TEMPFILE}"
 
+if [ -e ${TEMPFILE} ]; then
+    rm -v ${TEMPFILE}
+fi
 ${ACME} ${ACME_ARGS}
 ${PUCRUNCH} ${PUCRUNCH_ARGS}
 ${VICE} -autostartprgmode 0 ${TEMPFILE}
