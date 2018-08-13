@@ -21,10 +21,13 @@
 ; #$00 == constant 0
 
 ; address of background color
-BACKGROUND=$d020
+BACKGROUND_COLOR=$d020
 
 ; address of border color
-BORDER=$d021
+BORDER_COLOR=$d021
+
+; first address of color ram
+COLOR_RAM=$d800
 
 ; address where program is loaded
 *=$0801
@@ -35,27 +38,29 @@ main:
     ; clear screen
     jsr $e544
 
-    lda #$03
-    sta BACKGROUND ; store A (03) in background color address
-    lda #$05
-    sta BORDER     ; store A (05) in border color address
+    lda #$0f             ; A = 0f
+    sta BACKGROUND_COLOR ; store A (0f) in background color address
+    lda #$0f
+    sta BORDER_COLOR     ; store A (0f) in border color address
 
-    ldy #$00
-    ldx #$00
+    ldx #$00             ; X = 0
 
 hello:
-    ; TODO change color for each char
-    sty $d800   ; text color
-    lda $d800,x
+    txa                  ; A = X
+    sta COLOR_RAM,x      ; set text color to A
 
-    lda text,x
     ; $0400 is first address of screen memory
     ; 40 col x 25 row = 1000 bytes
-    ; +5 starts 5 col from the left corner
-    sta $0400,x
+    lda text,x           ; load first byte of text string into A
+    sta $0400,x          ; store A in memory address
+
+    ; display the charrom number below the string
+    txa
+    sta $0400+40,x
+
     inx
-    cpx #11     ; length of text
-    bne hello   ; loop until x == 11
+    cpx #11              ; length of text
+    bne hello            ; loop until x == 11
     jsr wait
     jsr end
 
