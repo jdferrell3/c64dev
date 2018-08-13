@@ -29,6 +29,9 @@ BORDER_COLOR=$d021
 ; first address of color ram
 COLOR_RAM=$d800
 
+;placeholder for various temp parameters
+TEMP1=$03
+
 ; address where program is loaded
 *=$0801
 
@@ -38,15 +41,19 @@ main:
     ; clear screen
     jsr $e544
 
-    lda #$0f             ; A = 0f
+    lda #$00             ; A = 0f
     sta BACKGROUND_COLOR ; store A (0f) in background color address
-    lda #$0f
+    lda #$00
     sta BORDER_COLOR     ; store A (0f) in border color address
 
     ldx #$00             ; X = 0
 
 hello:
+    ; add 1 to x so the char color isn't black (0)
     txa                  ; A = X
+    ldy #$01
+    sty TEMP1
+    adc TEMP1
     sta COLOR_RAM,x      ; set text color to A
 
     ; $0400 is first address of screen memory
